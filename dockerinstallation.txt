@@ -1,0 +1,46 @@
+
+docker image:
+1.sudo apt update
+2.sudo apt install docker.io -y
+3.sudo systemctl start docker
+4.sudo systemctl enable docker
+5.sudo docker --version
+6.sudo apt install python3-pip
+7.sudo apt install python3.12-venv
+8.python3 -m venv myenv
+9.source myenv/bin/activate
+10.whoami to know the username,sudo usermod -aG docker ubuntu(this ubuntu is the username)
+11.exit, after logout restart the terminal again.
+12.docker build -t sample-app .
+13.docker run -p 5000:5000 sample-app
+14.open customtcp on 5000 for any ipv4 adrreses, in security group of ec2 instance
+15.on browser just check this--http://your-ec2-public-ip:5000
+
+
+
+docker hub usgae:
+1. got dockerhub: https://hub.docker.com/, signup
+2. come to ec2, type docker pull ubuntu
+3. docker run -it -p 80:80 ubuntu, after this you will be in container
+4. apt-get update or apt update
+5. apt-get install net-tools
+6. apt-get install tree, cntrl +PQ, Enter, enter
+7. docker commit containerid dockerhubreponame: latesttag for ex:docker commit 565231112aa6 maddelasanthi/dockerdemo:v1
+8. docker login, here give your username and password for ex:username-maddelasanthi, password given PAT-can be generated from ourprofile 
+9. docker push maddelasanthi/dockerdemo:v1
+10.now check in dockerhub whether this has been pushed or not
+
+
+docker playground:
+1. go to playground https://labs.play-with-docker.com/, from here create four nodes
+2. from node1 type docker swarm init --advertise-addr node1ip, now here you can see the join token also,
+so copy that using cntrl+insert and paste in node2,3,4 with shift+insert.
+3. form node1 type docker swarm join-token manager 
+4. from node1 type docker service create --name mynginx --publish 80:80 nginx
+5. from node1, docker service update --replicas=10 mynginx
+6. so now 80 port will be opened on all nodes via port you can accees the nginx page
+7. or you can check with curl like, curl http://publicip of any node
+8. now check whether welcome nginx came or not. 
+9. from node1 type docker service ps serviveid(to know service id type docker service ls), ex-docker service ps v8klv48qjiro-to check whether all nginx serviecs are running or not
+10.docker ps -a :to show all the running containers on nodes , so from each node type this.
+11.docker service rm <service_name>
